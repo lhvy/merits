@@ -7,9 +7,15 @@ from processed import process_students
 from raw import get_raw
 
 load_dotenv()
-cookies = {"PHPSESSID": os.getenv("PHPSESSID")}
-raw = get_raw(os.getenv("ACHIEVEMENTS_URL"), cookies)
-processed = process_students(raw.data, os.getenv("BASE_URL"), cookies)
+PHPSESSID = os.getenv("PHPSESSID")
+ACHIEVEMENTS_URL = os.getenv("ACHIEVEMENTS_URL")
+BASE_URL = os.getenv("BASE_URL")
+if not PHPSESSID or not ACHIEVEMENTS_URL or not BASE_URL:
+    raise ValueError("Missing environment variables")
+
+cookies = {"PHPSESSID": PHPSESSID}
+raw = get_raw(ACHIEVEMENTS_URL, cookies)
+processed = process_students(raw.data, BASE_URL, cookies)
 for student in processed:
     print(student.fullName, student.externalId)
     for badge in student.badges:
