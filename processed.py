@@ -22,13 +22,22 @@ class Student:
     lastName: str
     badges: list[Badge]
 
+    def get_badge(self, name: str) -> int:
+        for badge in self.badges:
+            if badge.name == name:
+                return badge.count
+        return 0
+
 
 def process_students(
-    raw_students: list[RawStudent], base_url: str, cookies: dict[str, str]
+    raw_students: list[RawStudent],
+    class_id: str,
+    base_url: str,
+    cookies: dict[str, str],
 ) -> list[Student]:
     students = []
     ids = set()
-    bar = Bar("Processing", max=len(raw_students))
+    bar = Bar(f"Processing {class_id}", max=len(raw_students))
     for raw_student in raw_students:
         url = f"{base_url}/api/user/{raw_student.id}"
         response = requests.get(url, cookies=cookies, timeout=5)
@@ -36,7 +45,7 @@ def process_students(
         externalId = int(response.json().get("externalId"))
 
         if raw_student.badges is None:
-            bar.next()
+            # bar.next()
             continue
 
         student = Student(

@@ -62,4 +62,6 @@ class RawResponse(BaseModel):
 def get_raw(url: str, cookies: dict[str, str]) -> RawResponse:
     response = requests.get(url, cookies=cookies, timeout=5)
     response.raise_for_status()
+    if response.text.startswith("<!DOCTYPE html>"):
+        raise ValueError("Invalid PHPSESSID, ensure you have a working cookie")
     return RawResponse.model_validate(response.json())
