@@ -2,8 +2,38 @@ import base64
 import sys
 import time
 import urllib.parse
+from datetime import datetime, timedelta
 
 import requests
+from pytz import timezone
+
+
+def get_year():
+    year = input("Enter year level (7-13): ")
+    if year not in ["7", "8", "9", "10", "11", "12", "13"]:
+        print("Invalid year level")
+        sys.exit(1)
+    return year
+
+
+def get_dates():
+    valid = False
+    while not valid:
+        start_date = input("Enter start date (inclusive) in format YYYY-MM-DD: ")
+        end_date = input("Enter end date (inclusive) in format YYYY-MM-DD: ")
+        try:
+            tz = timezone("Australia/Sydney")
+            start_date = tz.localize(datetime.strptime(start_date, "%Y-%m-%d"))
+            end_date = tz.localize(datetime.strptime(end_date, "%Y-%m-%d")) + timedelta(
+                days=1
+            )
+            if start_date < end_date:
+                valid = True
+            else:
+                print("Start date must be before end date")
+        except ValueError:
+            print("Invalid date format")
+    return start_date, end_date
 
 
 def get_year_filter(name: str) -> str:
