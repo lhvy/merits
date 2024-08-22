@@ -123,7 +123,7 @@ def write_out(year, processed):
     with open(f"{year}-output.csv", "w", newline="", encoding="utf-8") as file:
         writer = csv.writer(file)
         header = [
-            "External ID",
+            "Student Number",
             "First Name",
             "Last Name",
         ] + TRACKED_BADGES
