@@ -9,7 +9,7 @@ from pytz import timezone
 
 
 def get_year():
-    year = input("Enter year level (7-13): ")
+    year = input("Enter current year level (7-13): ")
     if year not in ["7", "8", "9", "10", "11", "12", "13"]:
         print("Invalid year level")
         sys.exit(1)
