@@ -72,7 +72,9 @@ def get_processed(start_date, end_date, students):
     for student in students:
         p = ProcessedStudent(
             schoolboxId=student.id,
-            externalId=int(student.externalId),
+            externalId=(
+                int(student.externalId) if student.externalId is not None else -1
+            ),
             fullName=student.fullName,
             firstName=student.firstName,
             lastName=student.lastName,

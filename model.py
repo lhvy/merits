@@ -23,7 +23,7 @@ class Student(BaseModel):
     yearLevel: YearLevel
     isDeleted: bool
     fullName: str
-    externalId: str
+    externalId: str | None
     username: str
     enabled: bool
     title: str
